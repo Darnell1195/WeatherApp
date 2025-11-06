@@ -1,6 +1,9 @@
 package com.weatherApp.data.db
 
 import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
 
 //TODO define WeatherDao interface
 /**
@@ -10,9 +13,18 @@ import androidx.lifecycle.LiveData
  * ordered by time (ascending).
  * clearDatabase: deletes all the data on the weather_data table
  */
-
+@Dao // Anotamos la interfaz como DAO
 interface WeatherDao {
+
+    //Anotación para insertar una lista de datos
+    @Insert
     suspend fun insertWeatherData(data: List<WeatherEntity>)
+
+
+    @Query("SELECT * FROM weather_data ORDER BY time ASC")
     fun retrieveWeatherData(): LiveData<List<WeatherEntity>>
+
+    // (Parte 2) Consulta para borrar todos los datos de la tabla
+    @Query("DELETE FROM weather_data")
     suspend fun clearDatabase()
 }
