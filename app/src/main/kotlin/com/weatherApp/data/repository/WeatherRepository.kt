@@ -1,13 +1,10 @@
 package com.weatherApp.data.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.weatherApp.data.api.WeatherApiService
 import com.weatherApp.data.db.WeatherDao
 import com.weatherApp.data.db.WeatherEntity
 import com.weatherApp.utils.PreferencesManager
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class WeatherRepository(
     private val dao: WeatherDao,
@@ -40,23 +37,29 @@ class WeatherRepository(
     }
 
     fun getWeather(): LiveData<List<WeatherEntity>> {
-        // TODO uncomment when DAO is defined and delete all the other lines on this function
-        //  return dao.retrieveWeatherData()
-        val mockData = MutableLiveData<List<WeatherEntity>>()
 
-        val now = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
+        //devuelve datos reales desde la base de datos
+        return dao.retrieveWeatherData()
 
-        val list = List(12) { i ->
-            WeatherEntity(
-                id = i,
-                temperature = (10..25).random().toDouble(),
-                time = now.plusHours(i.toLong()).format(formatter)
-            )
-        }
+        /*        // TODO uncomment when DAO is defined and delete all the other lines on this function
+                //  return dao.retrieveWeatherData()
+                val mockData = MutableLiveData<List<WeatherEntity>>()
 
-        mockData.value = list
-        return mockData
+                val now = LocalDateTime.now()
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
+
+                val list = List(12) { i ->
+                    WeatherEntity(
+                        id = i,
+                        temperature = (10..25).random().toDouble(),
+                        time = now.plusHours(i.toLong()).format(formatter)
+                    )
+                }
+
+                mockData.value = list
+                return mockData*/
     }
+
+
 }
 
