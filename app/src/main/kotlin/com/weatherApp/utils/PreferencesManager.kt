@@ -12,23 +12,29 @@ class PreferencesManager(context: Context) {
         private const val KEY_LONGITUDE = "key_longitude"
     }
 
+    // `SharedPreferences` en modo privado para esta aplicación.
     private val prefs: SharedPreferences =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
+    // Devuelve el nombre de la ciudad almacenada, o `null` si no existe.
     fun getCityName(): String? {
         return prefs.getString(KEY_CITY_NAME, null)
     }
 
-
+    //Devuelve la latitud almacenada o `null` si no se ha guardado ninguna.
     fun getLatitude(): Float? {
         return prefs.getFloat(KEY_LATITUDE, 0.0f)
     }
 
+    //Devuelve la longitud almacenada o `null` si no se ha guardado ninguna
     fun getLongitude(): Float? {
 
         return prefs.getFloat(KEY_LONGITUDE, 0.0f)
     }
 
+
+    // Guarda la ubicación proporcionada. Los valores numéricos se convierten a Float
+    // porque `SharedPreferences` no soporta Double directamente.
     fun saveLocation(city: String, latitude: Double, longitude: Double) {
         prefs.edit().apply {
             putString(KEY_CITY_NAME, city)
